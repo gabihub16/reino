@@ -1,0 +1,82 @@
+/* ==========================================================================
+   REINO BURGUER · variables.css
+   Design System: todos os tokens (cores, tipografia, espaçamento, sombras).
+   Para mudar a identidade visual do sistema, edite apenas este arquivo.
+   ========================================================================== */
+
+:root {
+    /* ---- Cores: marca ---- */
+    --color-primary: #d62828;          /* vermelho da marca */
+    --color-primary-dark: #101010;     /* preto da marca */
+    --color-primary-light: #f04438;
+    --color-secondary: #f77f00;        /* laranja da logo */
+    --color-accent: #ffc300;           /* amarelo da logo */
+    --color-accent-light: #fff1b8;
+
+    /* ---- Cores: superfícies e texto ---- */
+    --color-background: #080808;
+    --color-surface: #171717;
+    --color-surface-secondary: #24211d;
+    --color-surface-tint: #1d1b19;
+    --color-text: #f7f4ee;
+    --color-text-muted: #c4bfb7;
+    --color-border: #49433c;
+    --color-focus: #ffc300;
+
+    /* ---- Cores: estados ---- */
+    --color-success: #50a878;
+    --color-warning: #ffc300;
+    --color-danger: #f04438;
+    --color-info: #66b8d6;
+
+    --color-success-bg: #17251d;
+    --color-warning-bg: #2a2414;
+    --color-danger-bg: #2b1717;
+    --color-info-bg: #14232a;
+
+    --color-success-text: #a9e5bf;
+    --color-warning-text: #ffe28a;
+    --color-danger-text: #ffb2ab;
+    --color-info-text: #b5e4f3;
+
+    --color-white: #ffffff;
+    --color-black: #080808;
+
+    /* ---- Tipografia ---- */
+    --font-text: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --font-heading: "Montserrat", "Inter", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+    --text-2xl: clamp(1.6rem, 1.3rem + 1.2vw, 2.25rem);
+
+    /* ---- Espaçamento ---- */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-7: 3rem;
+
+    /* ---- Layout ---- */
+    --container: 1200px;
+    --form-width: 640px;
+    --tap-size: 44px;                  /* área mínima de toque */
+
+    /* ---- Sombras (suaves) ---- */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.38);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --focus-ring: 0 0 0 3px rgba(255, 195, 0, 0.3);
+
+    /* ---- Bordas ---- */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+
+    /* ---- Movimento ---- */
+    --transition: 0.2s ease;
+}

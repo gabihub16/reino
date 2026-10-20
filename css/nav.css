@@ -1,0 +1,126 @@
+/* ==========================================================================
+   REINO BURGUER · navbar.css
+   Header / navegação. Serve tanto o includes/header.php (admin) quanto o
+   <header class="header-publico"> do index.php (visitante e cliente).
+
+   - A marca é inserida como imagem no HTML.
+   - "Sair" e "Login" são identificados pelo href (a[href$="..."]).
+   ========================================================================== */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    padding: var(--space-2) clamp(1rem, 3vw, 2rem);
+    color: var(--color-accent-light);
+    background-color: var(--color-primary-dark);
+    border-bottom: 3px solid var(--color-accent);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Logo */
+.header-brand {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+}
+
+.header-brand img {
+    display: block;
+    width: 56px;
+    height: 56px;
+    max-width: min(100%, 56px);
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+header nav {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+}
+
+header nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 var(--space-3);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-white);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition), color var(--transition);
+}
+
+header nav a:hover {
+    color: var(--color-white);
+    background-color: rgba(255, 195, 0, 0.14);
+}
+
+.header-visitante {
+    position: relative;
+    justify-content: space-between;
+    min-height: 88px;
+}
+
+.header-visitante-inicio-grupo {
+    display: flex;
+    flex: 0 1 auto;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.header-visitante nav {
+    flex: 0 1 auto;
+    justify-content: flex-start;
+}
+
+.header-visitante .nav-visitante-conta {
+    justify-content: flex-end;
+}
+
+.header-visitante .titulo-marca {
+    position: absolute;
+    left: 50%;
+    margin: 0;
+    color: var(--color-accent);
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 800;
+    text-align: center;
+    white-space: nowrap;
+    transform: translateX(-50%);
+}
+
+.header-visitante .nav-visitante-conta a {
+    border: 1px solid var(--color-accent);
+}
+
+.header-visitante .nav-visitante-conta a:hover {
+    color: var(--color-black);
+    background-color: var(--color-accent);
+}
+
+header :focus-visible {
+    outline-color: var(--color-accent-light);
+}
+
+/* Área do usuário (direita) */
+header nav a[href$="logout.php"],
+.header-publico nav a[href$="login.php"] {
+    margin-inline: 0;
+    border: 1px solid var(--color-accent);
+}
+
+header nav a[href$="logout.php"]:hover,
+.header-publico nav a[href$="login.php"]:hover {
+    background-color: var(--color-accent);
+    color: var(--color-black);
+}

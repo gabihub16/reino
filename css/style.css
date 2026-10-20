@@ -1,0 +1,30 @@
+/* ==========================================================================
+   REINO BURGUER · style.css  (ponto de entrada)
+   As páginas PHP continuam linkando apenas este arquivo.
+
+   A ordem importa: tokens → base → componentes → responsivo.
+   ========================================================================== */
+
+/* Fontes (se ficar offline, o sistema cai em system-ui sem quebrar o layout) */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap");
+
+/* 1. Fundação */
+@import url("variaveis.css");
+@import url("resetar.css");
+@import url("global.css");
+
+/* 2. Componentes */
+@import url("botoes.css");
+@import url("forms.css");
+@import url("nav.css");
+@import url("cartoes.css");
+@import url("alertas.css");
+@import url("tabelas.css");
+@import url("dash.css");
+@import url("componentes.css");
+
+/* 3. Páginas */
+@import url("telalogin.css");
+
+/* 4. Responsivo (sempre por último) */
+@import url("responsive.css");
