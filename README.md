@@ -39,6 +39,8 @@ Execute o comando `CREATE DATABASE` fora de um bloco de transação. Depois, a p
 
 ```powershell
 cd database/
+```
+```powershell
 psql -h localhost -U reino_burguer -d reino_burguer -f cardapio.sql
 ```
 
