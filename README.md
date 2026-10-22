@@ -13,18 +13,73 @@ Este documento descreve o que está implementado no projeto. A estrutura das se�
 - **PHP** compatível com o código do projeto e com a extensão `pdo_pgsql` habilitada.
 - **PostgreSQL** instalado e em execução.
 - Navegador web moderno.
-- Opcional: **Git**, caso o projeto seja obtido de um repositório.
+- **Git**, caso o projeto seja obtido de um repositório.
 
-### Passo 1: Clonar o repositório
+### 1. Clonar o projeto
 
-Com o Git instalado, abra um terminal na pasta em que deseja salvar o projeto e execute:
+Clone o repositório e entre na pasta:
 
 ```bash
 git clone https://github.com/gabihub16/reino.git
 cd reino
 ```
 
-Se estiver clonando um fork ou outro repositório, substitua a URL pela fornecida pelo responsável. Os próximos comandos devem ser executados na pasta raiz do projeto, onde estão `index.php` e as pastas `app/`, `database/` e `includes/`.
+O script `database/cardapio.sql` já estará na pasta `database`.
+
+### 2. Criar e preparar o banco de dados
+
+No PostgreSQL, crie um usuário e um banco de dados. Por exemplo, conectado a uma sessão administrativa do PostgreSQL, execute:
+
+```sql
+CREATE USER reino_burguer WITH PASSWORD 'sua_senha';
+CREATE DATABASE reino_burguer OWNER reino_burguer;
+```
+
+Execute o comando `CREATE DATABASE` fora de um bloco de transação. Depois, a partir da pasta raiz do projeto, restaure a estrutura e os produtos iniciais:
+
+```powershell
+psql -h localhost -U reino_burguer -d reino_burguer -f .\database\cardapio.sql
+```
+
+O script cria as tabelas e insere os produtos iniciais do cardápio. Também pode ser executado pelo pgAdmin. Use um banco vazio ou confirme que possui uma cópia de segurança antes de executar scripts em um banco com dados que deseja preservar.
+
+### 3. Configurar a conexão
+
+Edite `database/connect.php` com os dados definidos para o seu PostgreSQL:
+
+```php
+$host = 'localhost';
+$dbname = 'reino_burguer';
+$user = 'reino_burguer';
+$pass = 'sua_senha';
+```
+
+Não publique credenciais reais no GitHub.
+
+### 4. Iniciar o servidor PHP
+
+Execute o comando a partir da pasta raiz do projeto:
+
+```bash
+php -S localhost:8000
+```
+
+Abra [http://localhost:8000](http://localhost:8000) no navegador. Para encerrar o servidor, pressione `Ctrl+C` no terminal.
+
+### 5. Criar uma conta administrativa
+
+1. Cadastre uma conta pela página de cadastro. Novas contas recebem o perfil `cliente`.
+2. No PostgreSQL, altere o perfil da conta que deverá administrar o sistema:
+
+   ```sql
+   UPDATE clientes
+   SET perfil = 'admin'
+   WHERE email = 'admin@exemplo.com';
+   ```
+
+3. Saia da aplicação e entre novamente para que a sessão carregue o perfil atualizado.
+
+O script `database/cardapio.sql` cria a estrutura e os produtos do cardápio, mas não cria uma conta administrativa. As senhas cadastradas pela aplicação são armazenadas com `password_hash()`. Não compartilhe senhas reais ou credenciais de produção.
 
 ### Compactar a pasta clonada em ZIP (Windows)
 
@@ -56,44 +111,6 @@ Antes de compartilhar o arquivo, confira se ele não contém senhas, credenciais
 6. Confira no painel SFTP se `index.php` está na pasta pública do site. Se os arquivos ficaram dentro de uma subpasta `reino`, o responsável pelo servidor deve configurar o site para apontar para essa pasta ou orientar onde colocar os arquivos.
 7. Configure `database/connect.php` com os dados do banco de produção fornecidos pelo responsável pelo servidor. Não compartilhe esses dados nem os inclua no repositório.
 8. Abra no navegador o endereço do site fornecido pelo responsável. Se o banco ainda não estiver preparado, peça ao responsável para criar/preparar o banco antes de acessar o sistema.
-
-### Passo 2: Criar e preparar o banco de dados
-
-1. No PostgreSQL, crie um banco vazio, por exemplo `reino_burguer`.
-2. Execute o script `database/cardapio.sql` nesse banco. Ele cria as tabelas e insere os produtos iniciais sem duplicar os que já existem na mesma categoria.
-
-É possível executar o script pelo pgAdmin ou por uma ferramenta de linha de comando do PostgreSQL. Não apague um banco existente sem antes confirmar que há uma cópia de segurança.
-
-### Passo 3: Configurar a conexão
-
-Abra `database/connect.php` e substitua os valores de exemplo pelas informações do seu PostgreSQL:
-
-```php
-$host = 'localhost';
-$dbname = 'reino_burguer';
-$user = 'seu_usuario';
-$pass = 'sua_senha';
-```
-
-### Passo 4: Iniciar o servidor PHP
-
-No terminal, ainda na raiz do projeto, inicie o servidor embutido do PHP:
-
-```text
-php -S localhost:8000
-```
-
-Abra `http://localhost:8000` no navegador. Para encerrar o servidor, volte ao terminal e pressione `Ctrl+C`.
-
-### Passo 5: Criar uma conta e entrar
-
-1. No endereço em que deseja usar o sistema, acesse a opção de cadastro e crie uma conta. Os novos cadastros recebem o perfil `cliente`. Uma conta criada em `localhost` fica no banco local e não é transferida para o servidor; para usar o site publicado, cadastre-se novamente nele.
-2. Entre como cliente usando o e-mail e a senha cadastrados.
-3. O banco de dados usado pelo projeto já possui um usuário com perfil de administrador criado. O e-mail de acesso é `jorgeadm@gmail.com`.
-
-> **Atenção:** se você criar um banco do zero executando apenas `database/cardapio.sql`, o script cria a estrutura e os produtos do cardápio, mas não insere a conta administrativa. Nesse caso, a conta de administrador precisa ser cadastrada/preparada separadamente no banco.
-
-As senhas criadas pelo formulário de cadastro são armazenadas com `password_hash()`. Nunca utilize ou compartilhe uma senha de produção em documentação pública.
 
 ---
 
