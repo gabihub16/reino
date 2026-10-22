@@ -15,9 +15,47 @@ Este documento descreve o que está implementado no projeto. A estrutura das se�
 - Navegador web moderno.
 - Opcional: **Git**, caso o projeto seja obtido de um repositório.
 
-### Passo 1: Abrir a pasta do projeto
+### Passo 1: Clonar o repositório
 
-Abra um terminal na pasta raiz do projeto, onde estão `index.php` e as pastas `app/`, `database/` e `includes/`. Se o projeto veio de um repositório, utilize o endereço fornecido pelo responsável; este README não presume um endereço de repositório.
+Com o Git instalado, abra um terminal na pasta em que deseja salvar o projeto e execute:
+
+```bash
+git clone https://github.com/gabihub16/reino.git
+cd reino
+```
+
+Se estiver clonando um fork ou outro repositório, substitua a URL pela fornecida pelo responsável. Os próximos comandos devem ser executados na pasta raiz do projeto, onde estão `index.php` e as pastas `app/`, `database/` e `includes/`.
+
+### Compactar a pasta clonada em ZIP (Windows)
+
+Depois de clonar o projeto, volte para a pasta que contém a pasta `reino`. No Explorador de Arquivos, clique com o botão direito na pasta `reino` e selecione **Compactar para arquivo ZIP** (ou **Enviar para > Pasta compactada**, dependendo da versão do Windows). Será criado um arquivo `reino.zip` nessa pasta.
+
+Também é possível criar o ZIP pelo PowerShell, estando na pasta que contém `reino`:
+
+```powershell
+Compress-Archive -Path .\reino -DestinationPath .\reino.zip
+```
+
+Antes de compartilhar o arquivo, confira se ele não contém senhas, credenciais ou dumps com dados pessoais.
+
+### Publicar o projeto no servidor pelo MobaXterm
+
+1. Compacte a pasta clonada em `reino.zip`, conforme a etapa anterior.
+2. No MobaXterm, crie uma sessão **SSH** com o endereço, a porta e o usuário fornecidos pelo responsável pelo servidor. Conecte-se usando a forma de autenticação fornecida.
+3. No painel SFTP à esquerda, abra a pasta do site indicada pelo responsável pelo servidor. O nome e o caminho dessa pasta variam conforme a hospedagem.
+4. Envie `reino.zip` para essa pasta. Se preferir, envie os arquivos da pasta `reino` já extraídos.
+5. Se enviou o ZIP, no terminal SSH entre na pasta do site e extraia os arquivos:
+
+   ```bash
+   cd /caminho/da/pasta-do-site
+   unzip reino.zip
+   ```
+
+   Se não houver `unzip` no servidor, extraia o arquivo no computador e envie os arquivos pelo painel SFTP.
+
+6. Confira no painel SFTP se `index.php` está na pasta pública do site. Se os arquivos ficaram dentro de uma subpasta `reino`, o responsável pelo servidor deve configurar o site para apontar para essa pasta ou orientar onde colocar os arquivos.
+7. Configure `database/connect.php` com os dados do banco de produção fornecidos pelo responsável pelo servidor. Não compartilhe esses dados nem os inclua no repositório.
+8. Abra no navegador o endereço do site fornecido pelo responsável. Se o banco ainda não estiver preparado, peça ao responsável para criar/preparar o banco antes de acessar o sistema.
 
 ### Passo 2: Criar e preparar o banco de dados
 
@@ -37,8 +75,6 @@ $user = 'seu_usuario';
 $pass = 'sua_senha';
 ```
 
-Não publique credenciais reais em repositórios ou arquivos compartilhados. O arquivo atual utiliza valores definidos diretamente no PHP; não está configurado para ler as variáveis de ambiente mencionadas em versões anteriores deste README.
-
 ### Passo 4: Iniciar o servidor PHP
 
 No terminal, ainda na raiz do projeto, inicie o servidor embutido do PHP:
@@ -51,7 +87,7 @@ Abra `http://localhost:8000` no navegador. Para encerrar o servidor, volte ao te
 
 ### Passo 5: Criar uma conta e entrar
 
-1. Acesse a opção de cadastro e crie uma conta. Os novos cadastros recebem o perfil `cliente`.
+1. No endereço em que deseja usar o sistema, acesse a opção de cadastro e crie uma conta. Os novos cadastros recebem o perfil `cliente`. Uma conta criada em `localhost` fica no banco local e não é transferida para o servidor; para usar o site publicado, cadastre-se novamente nele.
 2. Entre como cliente usando o e-mail e a senha cadastrados.
 3. O banco de dados usado pelo projeto já possui um usuário com perfil de administrador criado. O e-mail de acesso é `jorgeadm@gmail.com`.
 
@@ -69,7 +105,7 @@ Esta especificação descreve as funcionalidades e características observáveis
 
 ### 1.1 Escopo do sistema
 
-O sistema apresenta e administra um cardápio online. Ele oferece páginas para visitantes, clientes autenticados e administradores. O catálogo permite pesquisar por nome ou descrição e filtrar por categoria. Clientes podem adicionar produtos disponíveis ao próprio carrinho, consultar quantidades e valores e remover itens. Administradores podem cadastrar, listar, consultar, atualizar e excluir produtos, além de visualizar indicadores.
+O sistema apresenta e administra um cardápio online. Ele oferece páginas para visitantes, clientes autenticados e administradores. Visitantes e administradores podem pesquisar o catálogo por nome ou descrição e filtrar por categoria; clientes autenticados veem o cardápio completo, sem controles de pesquisa e filtro. Clientes podem adicionar produtos disponíveis ao próprio carrinho, consultar quantidades e valores e remover itens. Administradores podem cadastrar, listar, consultar, atualizar e excluir produtos, além de visualizar indicadores.
 
 O projeto não possui fluxo de checkout, pagamento ou finalização de compra. As tabelas de pedidos existem para suportar os indicadores do painel, mas os pedidos não são criados pelas telas atuais.
 
@@ -85,8 +121,7 @@ O projeto é uma aplicação web renderizada pelo PHP. As páginas compartilham 
 
 ### 2.2 Funções do sistema
 
-- Exibir os produtos e permitir busca por nome ou descrição.
-- Filtrar o catálogo por categoria.
+- Exibir os produtos e permitir que visitantes e administradores busquem por nome ou descrição e filtrem por categoria.
 - Cadastrar clientes, autenticar usuários e encerrar a sessão.
 - Adicionar produtos disponíveis ao carrinho do cliente autenticado.
 - Aumentar a quantidade quando o mesmo produto for adicionado novamente.
@@ -102,7 +137,7 @@ O projeto é uma aplicação web renderizada pelo PHP. As páginas compartilham 
 | Usuário | Descrição |
 | :--- | :--- |
 | **Visitante** | Pessoa sem sessão autenticada. Pode consultar e filtrar o cardápio, acessar a página Sobre, cadastrar-se ou entrar. Para comprar, deve autenticar-se como cliente. |
-| **Cliente** | Usuário autenticado com perfil `cliente`. Pode adicionar produtos disponíveis ao carrinho, consultar o carrinho e remover itens. |
+| **Cliente** | Usuário autenticado com perfil `cliente`. Pode consultar o cardápio completo sem pesquisa ou filtros, adicionar produtos disponíveis ao carrinho, consultar o carrinho e remover itens. |
 | **Administrador** | Usuário autenticado com perfil `admin`. Pode acessar as páginas de gerenciamento de produtos e visualizar o dashboard administrativo. |
 
 ---
@@ -125,7 +160,7 @@ O projeto é uma aplicação web renderizada pelo PHP. As páginas compartilham 
 | ID | Título | Descrição | Prioridade |
 | :--- | :--- | :--- | :--- |
 | **RF05** | Exibição do cardápio | O sistema deve apresentar os produtos cadastrados, com categoria, descrição e preço. | Alta |
-| **RF06** | Busca e filtro | O sistema deve permitir buscar produtos por nome ou descrição e filtrar por categoria. | Alta |
+| **RF06** | Busca e filtro | O sistema deve permitir que visitantes e administradores busquem produtos por nome ou descrição e filtrem por categoria. | Alta |
 | **RF07** | Cadastro de produto | O administrador deve poder cadastrar nome, marca, categoria, descrição, preço e disponibilidade. | Alta |
 | **RF08** | Consulta e listagem | O administrador deve poder listar os produtos e consultar um produto pelo ID. | Alta |
 | **RF09** | Atualização de produto | O administrador deve poder atualizar os dados e a disponibilidade de um produto. | Alta |
