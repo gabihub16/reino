@@ -1,4 +1,5 @@
 <?php
+// Formulário de cadastro de clientes; os dados são processados pelas funções compartilhadas.
 require_once __DIR__ . '/../includes/functions.php';
 
 $resultado = null;

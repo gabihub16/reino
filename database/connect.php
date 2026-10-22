@@ -1,8 +1,9 @@
-<?php 
-$host = getenv('REINO_DB_HOST') ?: '192.168.10.22';
-$dbname = getenv('REINO_DB_NAME') ?: 'reino';
-$user = getenv('REINO_DB_USER') ?: 'reino';
-$pass = getenv('REINO_DB_PASS') ?: 'reino';
+<?php
+// Abre a conexão PDO com o PostgreSQL usando as configurações do banco do projeto.
+$host = 'SEU_LOCALHOST'; // Substitua pelo endereço do seu servidor PostgreSQL
+$dbname = 'NOME_DO_BANCO_DE_DADOS'; // Substitua pelo nome do seu banco de dados
+$user = 'NOME_DO_USUARIO'; // Substitua pelo nome do usuário do banco de dados;
+$pass = 'NOME_DA_SENHA'; // Substitua pela senha do usuário do banco de dados
 try {
     $conexao = new PDO(
         "pgsql:host=$host;dbname=$dbname;connect_timeout=5",

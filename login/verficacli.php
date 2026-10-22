@@ -1,4 +1,5 @@
 <?php
+// Protege páginas do cliente: exige login e redireciona perfis sem permissão.
 require_once __DIR__ . '/../includes/configuracao.php';
 if(session_status() == PHP_SESSION_NONE){
     session_start();

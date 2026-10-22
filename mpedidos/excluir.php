@@ -1,4 +1,5 @@
 <?php
+// Processa a remoção de um produto do carrinho e retorna à página do carrinho.
 require_once __DIR__ . '/../login/verficacli.php';
 require_once __DIR__ . '/../includes/functions.php';
 

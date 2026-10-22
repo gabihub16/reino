@@ -1,4 +1,5 @@
 <?php
+// Funções compartilhadas para detectar a raiz pública e montar URLs do sistema.
 // Descobre a raiz pública do projeto para funcionar tanto em /reino quanto na raiz do servidor.
 function base_url($novo_caminho = null)
 {

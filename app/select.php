@@ -1,4 +1,6 @@
-<?php require_once __DIR__ . '/../login/verificadm.php';
+<?php
+// Página administrativa que lista os produtos cadastrados no cardápio.
+require_once __DIR__ . '/../login/verificadm.php';
 require_once __DIR__ . '/../includes/functions.php';
 ?>
 
@@ -16,6 +18,7 @@ require_once __DIR__ . '/../includes/functions.php';
     <?php include __DIR__ . '/../includes/header.php'; ?>
     <main class="container">
         <h1>Cardápio</h1>
+        <!-- Lista os produtos cadastrados para consulta pelo administrador. -->
         <?php listar_produtos($conexao); ?>
     </main>
     <?php include __DIR__ . '/../includes/footer.php'; ?>

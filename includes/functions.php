@@ -1,7 +1,9 @@
 <?php
+// Carrega a conexão com o banco e as funções que montam as URLs do projeto.
 require_once __DIR__ . '/../database/connect.php';
 require_once __DIR__ . '/configuracao.php';
 
+// Valida os dados e salva um novo produto no cardápio.
 function cadastrar_produto($conexao, $nome, $marca, $categoria, $descricao, $preco, $ativo) {
     $categorias_validas = ['hamburgueres', 'hot-dogs', 'lanches', 'combos', 'acompanhamentos', 'bebidas', 'molhos'];
     if (!in_array($categoria, $categorias_validas, true)) {
@@ -30,6 +32,8 @@ function cadastrar_produto($conexao, $nome, $marca, $categoria, $descricao, $pre
 
     echo "<script>alert('Produto cadastrado com sucesso!'); window.location.href='" . url('index.php') . "';</script>";
 }
+
+// Remove um produto pelo ID informado e mostra se a exclusão foi realizada.
 function deletar_produto($conexao, $id) 
 {
     $id = filter_var($id, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
@@ -46,6 +50,7 @@ function deletar_produto($conexao, $id)
         : "Produto não encontrado.";
 }
 
+// Busca os produtos cadastrados e monta os cartões exibidos no catálogo administrativo.
 function listar_produtos($conexao)
 {
     $sql = "SELECT * FROM produtos ORDER BY id";
@@ -81,6 +86,7 @@ function listar_produtos($conexao)
     echo '</div>';
 }
 
+// Procura um produto pelo ID e apresenta seus dados de forma segura na página.
 function consultar_produto($conexao, $id)
 {
 
@@ -108,6 +114,7 @@ function consultar_produto($conexao, $id)
         . "Situação: " . (!empty($produto['ativo']) ? 'Disponível' : 'Inativo') . "<br>";
 }
 
+    // Confere se o produto existe e atualiza seus dados e sua disponibilidade.
 function atualizar_produto($conexao, $id, $nome, $marca, $categoria, $descricao, $preco, $ativo)
 {
     $ativo = filter_var($ativo, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
@@ -144,7 +151,7 @@ function atualizar_produto($conexao, $id, $nome, $marca, $categoria, $descricao,
     echo "Produto atualizado com sucesso!";
 }
 
-// Funções para sistema de login
+// Cria uma conta de cliente, guardando a senha como hash e tratando e-mails duplicados.
 function cadastrar_cliente($conexao, $nome, $email, $senha, $telefone)
 {
     $sql = "INSERT INTO clientes (nome, email, senha, telefone, perfil)
@@ -169,6 +176,7 @@ function cadastrar_cliente($conexao, $nome, $email, $senha, $telefone)
     }
 }
 
+// Localiza uma conta pelo e-mail para uso no processo de autenticação.
 function consulta_cliente($conexao, $email)
 {
     $sql = "SELECT id, nome, email, senha, perfil
@@ -183,6 +191,7 @@ function consulta_cliente($conexao, $email)
     return $cliente;
 }
 
+// Pesquisa o cardápio por texto e categoria, e ordena os produtos conforme solicitado.
 function buscar_produtos_filtrados($conexao, $busca = '', $categoria = '', $ordem = '') {
     $sql = "SELECT * FROM produtos
             WHERE LOWER(categoria) IN ('hamburgueres', 'hot-dogs', 'lanches', 'combos', 'acompanhamentos', 'bebidas', 'molhos')";
@@ -220,6 +229,7 @@ function buscar_produtos_filtrados($conexao, $busca = '', $categoria = '', $orde
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Converte o identificador interno da categoria para um nome amigável na interface.
 function nome_categoria_cardapio($categoria)
 {
     $categoria = (string) $categoria;
@@ -236,6 +246,7 @@ function nome_categoria_cardapio($categoria)
     return $categorias[strtolower($categoria)] ?? $categoria;
 }
 
+// Garante que existam as tabelas necessárias para armazenar pedidos e seus itens.
 function garantir_tabelas_dashboard_admin($conexao)
 {
     $sqls = [
@@ -261,6 +272,7 @@ function garantir_tabelas_dashboard_admin($conexao)
     }
 }
 
+// Reúne os indicadores mostrados no painel: clientes, pedidos e renda do mês atual.
 function obter_dashboard_admin($conexao)
 {
     garantir_tabelas_dashboard_admin($conexao);
@@ -287,8 +299,9 @@ function obter_dashboard_admin($conexao)
 }
 
 
-// ===== Carrinho =====
+// Funções responsáveis pelas operações do carrinho de compras do cliente.
 
+// Adiciona um produto disponível ao carrinho ou aumenta sua quantidade se já estiver lá.
 function adicionar_ao_carrinho($conexao, $cliente_id, $produto_id)
 {
     // Só adiciona produtos que estejam marcados como disponíveis.
@@ -312,6 +325,7 @@ function adicionar_ao_carrinho($conexao, $cliente_id, $produto_id)
     ]);
 }
 
+// Retorna os produtos e as quantidades que pertencem ao carrinho do cliente.
 function listar_carrinho($conexao, $cliente_id)
 {
     $sql = "SELECT c.produto_id, c.quantidade, p.nome, p.marca, p.preco, p.imagem, p.ativo
@@ -325,12 +339,14 @@ function listar_carrinho($conexao, $cliente_id)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Remove do carrinho do cliente o produto indicado.
 function remover_do_carrinho($conexao, $cliente_id, $produto_id)
 {
     $stmt = $conexao->prepare("DELETE FROM carrinho WHERE cliente_id = :c AND produto_id = :p");
     return $stmt->execute([':c' => $cliente_id, ':p' => $produto_id]);
 }
 
+// Soma as quantidades dos produtos para exibir o número de itens no carrinho.
 function contar_itens_carrinho($conexao, $cliente_id)
 {
     $stmt = $conexao->prepare("SELECT COALESCE(SUM(quantidade), 0) FROM carrinho WHERE cliente_id = :c");

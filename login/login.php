@@ -1,4 +1,5 @@
 <?php
+// Autentica o usuário e inicia uma sessão com seu identificador, nome e perfil.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }

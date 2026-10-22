@@ -1,4 +1,5 @@
 <?php
+// Recebe a solicitação do cliente para adicionar um produto e retorna com o resultado.
 require_once __DIR__ . '/../login/verficacli.php';   // exige login
 require_once __DIR__ . '/../includes/functions.php';
 

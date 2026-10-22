@@ -1,4 +1,5 @@
 <?php
+// Protege páginas administrativas: exige usuário autenticado com perfil de administrador.
 require_once __DIR__ . '/../includes/configuracao.php';
 
 if (session_status() === PHP_SESSION_NONE) {

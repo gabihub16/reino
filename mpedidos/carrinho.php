@@ -1,4 +1,5 @@
 <?php
+// Exibe os itens do carrinho do cliente, seus subtotais e o valor total.
 require_once __DIR__ . '/../login/verficacli.php';
 require_once __DIR__ . '/../includes/functions.php';
 

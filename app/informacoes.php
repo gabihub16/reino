@@ -1,4 +1,5 @@
 <?php
+// Página pública que apresenta a identidade e a proposta da hamburgueria.
 require_once __DIR__ . '/../includes/configuracao.php';
 
 if (session_status() === PHP_SESSION_NONE) {

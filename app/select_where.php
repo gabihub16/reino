@@ -1,4 +1,6 @@
-<?php require_once __DIR__ . '/../login/verificadm.php';
+<?php
+// Página administrativa para consultar e exibir os dados de um produto pelo ID.
+require_once __DIR__ . '/../login/verificadm.php';
 require_once __DIR__ . '/../includes/functions.php';
 ?>
 
@@ -17,7 +19,7 @@ require_once __DIR__ . '/../includes/functions.php';
     <h1>Consulta de Produto</h1>
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
-
+    <!-- Campo para localizar e consultar um produto pelo identificador (ID). -->
     <form action="" method="post">
         <label for="id">Digite o ID do produto que você deseja visualizar: </label>
         <input type="number" name="id" id="id" min="1" required><br>
@@ -26,6 +28,7 @@ require_once __DIR__ . '/../includes/functions.php';
     </form>
 
 <?php
+// Após o envio, busca os dados do produto solicitado e os exibe na página.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         consultar_produto($conexao, $_POST['id']);
     }

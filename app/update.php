@@ -1,4 +1,6 @@
-<?php require_once __DIR__ . '/../login/verificadm.php';
+<?php
+// Página administrativa para alterar os dados e a disponibilidade de um produto.
+require_once __DIR__ . '/../login/verificadm.php';
 require_once __DIR__ . '/../includes/functions.php';
 ?> 
 
@@ -17,6 +19,7 @@ require_once __DIR__ . '/../includes/functions.php';
     <?php include __DIR__ . '/../includes/header.php'; ?>
     
 
+    <!-- Formulário com o ID do produto e os novos valores que serão gravados. -->
     <form action="" method="POST">
         <label for="id">ID do produto: </label>
         <input type="number" name="id" id="id" required><br>
@@ -55,7 +58,8 @@ require_once __DIR__ . '/../includes/functions.php';
         <input type="submit" value="Atualizar" class="btn-edit">
     </form>
 
-    <?php 
+    <?php
+    // Ao enviar o formulário, encaminha os campos preenchidos para a função de atualização.
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         atualizar_produto(
             $conexao,
@@ -68,6 +72,7 @@ require_once __DIR__ . '/../includes/functions.php';
             $_POST['ativo']
         );
     }
+    // Inclui o rodapé compartilhado no fim da página.
     include __DIR__ . '/../includes/footer.php'; 
 ?>
 

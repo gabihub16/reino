@@ -1,4 +1,5 @@
-<?php 
+<?php
+// Página administrativa para cadastrar produtos e definir sua categoria e disponibilidade.
 require_once __DIR__ . '/../login/verificadm.php';
 require_once __DIR__ . '/../includes/functions.php';
 ?>
@@ -19,6 +20,7 @@ require_once __DIR__ . '/../includes/functions.php';
     <br>
     <hr>
     <br>
+    <!-- Formulário para informar os dados e a disponibilidade do novo produto. -->
     <form action="" method="POST">
         <label for="nome">Nome do produto: </label>
         <input type="text" name="nome" id="nome" required><br>
@@ -59,6 +61,7 @@ require_once __DIR__ . '/../includes/functions.php';
     </form>
 
     <?php
+        // Quando o formulário é enviado, passa os valores recebidos à função de cadastro.
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             cadastrar_produto(
                 $conexao, 
@@ -70,7 +73,7 @@ require_once __DIR__ . '/../includes/functions.php';
         $_POST['ativo'] ?? '1'
     );
 }
-        
+        // Inclui o rodapé compartilhado ao final da página.
         include __DIR__ . '/../includes/footer.php'; 
         ?>
 </body>

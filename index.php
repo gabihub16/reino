@@ -1,4 +1,5 @@
 <?php
+// Página inicial: mostra o cardápio, oferece filtros e exibe indicadores para administradores.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
