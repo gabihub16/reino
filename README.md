@@ -38,7 +38,8 @@ CREATE DATABASE reino_burguer OWNER reino_burguer;
 Execute o comando `CREATE DATABASE` fora de um bloco de transação. Depois, a partir da pasta raiz do projeto, restaure a estrutura e os produtos iniciais:
 
 ```powershell
-psql -h localhost -U reino_burguer -d reino_burguer -f .\database\cardapio.sql
+cd database/
+psql -h localhost -U reino_burguer -d reino_burguer -f cardapio.sql
 ```
 
 O script cria as tabelas e insere os produtos iniciais do cardápio. Também pode ser executado pelo pgAdmin. Use um banco vazio ou confirme que possui uma cópia de segurança antes de executar scripts em um banco com dados que deseja preservar.
